@@ -1,0 +1,28 @@
+.generic-header {
+  background-color: #f8f9fa;
+  padding: 10px 20px;
+}
+
+.input-group {
+  width: 100%;
+}
+
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+}
+
+.bullet-dot {
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.5;
+  }
+}
+

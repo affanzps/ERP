@@ -1,0 +1,57 @@
+table {
+  width: 100%;
+  border-collapse: collapse; /* Removes space between columns */
+  border-spacing: 0;
+}
+
+th, td {
+  border:none;
+  padding: 0px;
+  padding: 4px 0px 4px 20px;
+}
+td{
+ font-size: smaller;
+}
+th {
+  align-content: center;
+  font-size:small;
+}
+
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  border: 0px;
+font-size: 12px;
+}
+
+.tooltip-container .tooltip-text {
+  visibility: hidden;
+  width: 60px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* Position above the button */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  // height: 10px;
+}
+
+.iconBtn{
+  height: 12px;
+  width: 12px;
+  max-width: fit-content;
+  max-height: fit-content;
+}

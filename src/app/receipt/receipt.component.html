@@ -1,0 +1,38 @@
+
+<app-header></app-header>
+<router-outlet></router-outlet>
+
+<div class="statistics">
+  <div class="card blue">Due Payments<br>253,225.00</div>
+  <div class="card green">Paid <br> 25000.00</div>
+  <div class="card purple">credit <br> 255555.00</div>
+
+</div>
+<div class="search">
+  <input type="text" placeholder="Filter keywords" />
+  <button style="padding-right: 150px;">Make new receipt</button>
+</div>
+<table>
+  <thead>
+    <tr>
+      <th>Doc Nbr</th>
+      <th>Date</th>
+      <th>Received From</th>
+      <th>Received In</th>
+      <th>Amount</th>
+      <th>Status</th>
+      <th>Remarks</th>
+    </tr>
+  </thead>
+<tbody>
+    <tr *ngFor="let item of dummyData">
+      <th >{{item.doc_num}}</th>
+      <td>{{item.date}}</td>
+      <td>{{item.received_from}}</td>
+      <td>{{item.received_in}}</td>
+      <td>{{item.amount}}</td>
+      <td>{{item.status}}</td>
+      <td>{{item.remarks}}</td>
+    </tr>
+  </tbody>
+</table>
