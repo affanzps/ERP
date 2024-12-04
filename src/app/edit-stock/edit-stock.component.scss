@@ -44,4 +44,57 @@ rtable tbody td:last-child button {
   border: none;
 }
 
+.dropdown-list {
+  list-style-type: none;
 
+
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+
+}
+
+.dropdown-list li {
+
+  cursor: pointer;
+}
+
+.dropdown-list li.selected {
+  background-color: #f0f0f0;
+}
+
+.dropdown-btn {
+
+  cursor: pointer;
+}
+
+
+.iconBtn{
+  height: 12px;
+  width: 12px;
+  max-width: fit-content;
+  max-height: fit-content;
+}
+
+.name-display {
+  display: flex;
+  align-items: center; /* Ensures the text and button are aligned vertically */
+}
+
+.name-text {
+  display: inline-flex;
+  align-items: center; /* Aligns the text and button within the span */
+}
+
+.dropdown-btn {
+  font-size: 12px; /* Makes the button smaller */
+  padding: 2px 6px; /* Adjust padding to make the button smaller */
+  margin-left: 8px; /* Adds space between the text and the button */
+  border: none; /* Optional: Removes the border */
+  background: none; /* Optional: Removes background to make it cleaner */
+  cursor: pointer;
+}
+
+.dropdown-btn i {
+  font-size: 16px; /* Adjusts the size of the icon inside the button */
+}

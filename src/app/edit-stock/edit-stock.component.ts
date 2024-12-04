@@ -1,13 +1,12 @@
-
-import { StockListViewModel } from './../shared/models/stock/StockListViewModel';
-
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StockOpeningService } from '../shared/services/stockOpening/stock-opening.service';
 import { StockBindingModel } from '../shared/models/stock/StockBindingModel';
 import { Warehouselist } from '../shared/models/stock/warehouslist';
-import { Row } from '../shared/models/stock/StockBindingModel';
+import { Row, Item } from '../shared/models/stock/StockBindingModel';
+import { InventoryItem } from '../shared/models/stock/InventoryListModel';
+import { Response } from '../shared/models/stock/responseModel';
 
 @Component({
   selector: 'app-edit-stock',
@@ -15,69 +14,108 @@ import { Row } from '../shared/models/stock/StockBindingModel';
   styleUrls: ['./edit-stock.component.scss'],
 })
 
-
-export class EditStockComponent {
+export class EditStockComponent implements OnInit {
+  public stockOpeningData: Response | null = null;
   newStock: StockBindingModel = new StockBindingModel();
-    Warehouselist: Warehouselist[] = [];
+  Warehouselist: Warehouselist[] = [];
   rows: Row[] = [];
+  items: Item[] = [];
   selectedProduct: any = null;
   isDropdownOpen: boolean = false;
-  productList: any[] = [];
-  recordId!:number;
+  InventoryProduct: InventoryItem[] = [];
+  recordId!: number;
 
-
-
+  dropdownOpenIndex: number | null = null;
+  filteredItems: any[][] = [];
 
   constructor(
     private stockOpeningService: StockOpeningService,
     private router: Router,
-    private route:ActivatedRoute
-
-
-  ) {
-
-  }
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-  this.WarehouseList();
-  this.recordId = Number(this.route.snapshot.paramMap.get('id'));
-  console.log(this.recordId);
-  this.getStockListById(this.recordId);
-    // this.fetchProductList();
+    this.InventoryList();
+    this.WarehouseList();
+
+    this.recordId = Number(this.route.snapshot.paramMap.get('id'));
+    console.log(this.recordId);
+    this.getStockListById(this.recordId);
   }
 
-
+  // Fetch stock data by ID
   getStockListById(id: number): void {
-    debugger;
+
     this.stockOpeningService.edit(id).subscribe(
       response => {
-        this.newStock = response;
-        this.rows = response.Rows || [];  // Make sure rows are updated
+        debugger
+        if (response) {
+          this.stockOpeningData = response;
+          this.newStock = response;
+          this.rows = response.Rows || [];
+          console.log('Rows:', this.rows);
+        } else {
+          console.warn('Empty response received.');
+        }
       },
       error => {
-        console.error('Error fetching:', error);
+        console.error('Error fetching stock data:', error);
       }
+    );
+  }
+  filterItems(input: string, index: number): void {
+    if (!this.filteredItems[index]) {
+      this.filteredItems[index] = [...this.InventoryProduct];
+    }
+
+    this.filteredItems[index] = this.InventoryProduct.filter(item =>
+      item.Name.toLowerCase().includes(input.toLowerCase())
     );
   }
 
 
+ getItemNameById(itemId: any): string {
+  if (!this.InventoryProduct || !Array.isArray(this.InventoryProduct)) {
+    console.error('InventoryProduct is not defined or not an array.');
+    return '';
+  }
+  const item = this.InventoryProduct.find(item => item.Id === itemId);
+  return item ? item.Name : '';
+}
+
+  InventoryList() {
+    this.stockOpeningService.inventory().subscribe(response => {
+      console.log(response);
+      this.InventoryProduct = response;
+      console.log("inentorydata",this.InventoryProduct)
+    });
+  }
+
+  onItemChange(row: any) {
+    console.log('Updated row:', row);
+  }
+  updateItem(index: number): void {
+    console.log('Updated ItemId for row:', this.rows[index].ItemId);
+    this.dropdownOpenIndex = null;
+  }
+  // Insert or update stock data
   InsertOrUpdateData() {
-    this.newStock.Id=this.recordId;
+    this.newStock.Id = this.recordId;
     this.stockOpeningService.insertOrUpdate(this.newStock).subscribe(response => {
       console.log(response);
       if (response && response.FlgDraft === false) {
         // Optionally handle success response
         this.newStock.Rows = response.Rows;  // Update rows if needed
-        this.rows = this.newStock.Rows;      // Update the table rows
+        this.rows = [...this.newStock.Rows];  // Update the table rows
         this.router.navigate(['/stock-opening/list']);  // Navigate after success
       }
     }, error => {
       console.error('Error:', error);
-      // Optionally handle error (e.g., show error message to the user)
     });
   }
 
-  WarehouseList(){
+  // Fetch warehouse list
+  WarehouseList() {
     const payload = {
       "CacheEntities": []
     };
@@ -89,11 +127,11 @@ export class EditStockComponent {
     });
   }
 
-   // Add a new row (example functionality)
+  // Add a new row
   addRow() {
     const newRow: Row = {
       Id: null,
-      ItemId: 0,
+      ItemId: null,
       PricePack: 0,
       NetQty: 0,
       ProductValue: 0,
@@ -104,8 +142,9 @@ export class EditStockComponent {
       Editing: true,
       Errors: [],
       QtyPack: 0,
-      isHovered:false
+      isHovered: false
     };
+    //this.rows = [...this.rows, { ...newRow }];
     this.rows.push(newRow);
   }
 
@@ -113,6 +152,7 @@ export class EditStockComponent {
   deleteRow(index: number) {
     this.rows.splice(index, 1);
   }
+
   updatevalue(index:number){
     const row = this.rows[index];
 
@@ -128,44 +168,29 @@ export class EditStockComponent {
 
 
   }
+  // Navigate to stock opening list
   navigateToStockOpeningList() {
     this.router.navigate(['/stock-opening/list']);
-
   }
 
+  // Navigate to new stock opening page
   navigateToStockOpeningListnew() {
     this.router.navigate(['/stock-opening/new']);
-
-  }
-  toggleDropdown() {
-    this.isDropdownOpen = !this.isDropdownOpen;
   }
 
+
+  // Hover events for row
   onHover(item: any) {
     item.isHovered = true;
   }
+
   onLeave(item: any) {
     item.isHovered = false;
   }
 
-
-  fetchProductList() {
-    this.stockOpeningService.inventory().subscribe({
-      next: (data) => {
-        this.productList = data;  // Corrected to 'data' instead of 'Data'
-      },
-      error: (error) => {
-        console.error('Error:', error);
-      }
-    });
-  }
-
-
+  // Select product from dropdown
   selectProduct(product: any): void {
     this.selectedProduct = product;
     this.isDropdownOpen = false;  // Close the dropdown after selection
   }
-
-
-
 }

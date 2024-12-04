@@ -22,7 +22,8 @@ export class Warehouse {
 
 export class Row {
   Id!: number | null;
-  ItemId!: number;
+  ItemId!: number |null ;
+
   PricePack!: number;
   NetQty!: number;
   ProductValue!: number;
@@ -39,4 +40,33 @@ export class Row {
 export class Log {
   CreatedOn!: string | null;
   Creator!: string | null;
+}
+export class Item {
+  Name!: string [];
+  StockUnitId!: number;
+  StockUnit!: StockUnit;
+  CostingMethod!: string;
+  InvAmountBasedOn!: string;
+  GroupId!: number;
+  Group!: Group;
+  Archived!: boolean;
+  Id!: number;
+}
+export class StockUnit {
+  Name!: string;
+  Multiplier!: number;
+  Decimals!: number;
+  Id!: number;
+}
+
+export class Group {
+  Name!: string;
+  TypeId!: number;
+  Type!: Type;
+  Id!: number;
+}
+export class Type {
+  Name!: string;
+  SysKey!: string;
+  Id!: number;
 }

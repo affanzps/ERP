@@ -53,7 +53,7 @@ export class Row {
 }
 
 export class Item {
-  Name!: string;
+  Name!: string [];
   StockUnitId!: number;
   StockUnit!: StockUnit;
   CostingMethod!: string;
@@ -61,7 +61,7 @@ export class Item {
   GroupId!: number;
   Group!: Group;
   Archived!: boolean;
-  Id!: number;
+  Id!: number [];
 }
 
 export class StockUnit {
