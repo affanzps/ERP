@@ -6,6 +6,8 @@ import { StockBindingModel } from '../shared/models/stock/StockBindingModel';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Warehouselist } from '../shared/models/stock/warehouslist';
 import { Row} from '../shared/models/stock/StockBindingModel';
+import { InventoryItem } from '../shared/models/stock/InventoryListModel';
+
 
 
 
@@ -20,7 +22,7 @@ export class CreateEditStockComponent {
   rows: Row[] = [];
   selectedProduct: any = null;
   isDropdownOpen: boolean = false;
-  productList: any[] = [];
+  InventoryProduct:InventoryItem []=[];
 
 
 
@@ -38,7 +40,8 @@ export class CreateEditStockComponent {
   ngOnInit(): void {
   this.WarehouseList();
   this.newStock.DocDate=this.getCurrentDate();
-    this.fetchProductList();
+    this.InventoryList();
+
   }
 
   getCurrentDate(): string {
@@ -82,12 +85,17 @@ export class CreateEditStockComponent {
       console.error('Error:', error);
     });
   }
-
+InventoryList(){
+  this.stockOpeningService.inventory().subscribe(response=>{
+    console.log(response);
+    this.InventoryProduct=response;
+  })
+}
    // Add a new row (example functionality)
-  addRow() {
+   addRow() {
     const newRow: Row = {
       Id: null,
-      ItemId: 0,
+      ItemId: null,
       PricePack: 0,
       NetQty: 0,
       ProductValue: 0,
@@ -98,8 +106,9 @@ export class CreateEditStockComponent {
       Editing: true,
       Errors: [],
       QtyPack: 0,
-      isHovered:false
+      isHovered: false
     };
+    //this.rows = [...this.rows, { ...newRow }];
     this.rows.push(newRow);
   }
 
@@ -135,16 +144,7 @@ export class CreateEditStockComponent {
 
 
 
-  fetchProductList() {
-    this.stockOpeningService.inventory().subscribe({
-      next: (data) => {
-        this.productList = data;  // Corrected to 'data' instead of 'Data'
-      },
-      error: (error) => {
-        console.error('Error:', error);
-      }
-    });
-  }
+
 
 
   selectProduct(product: any): void {

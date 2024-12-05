@@ -41,7 +41,7 @@
             />
           </div>
           <div class="col-4" style="width: 210px;">
-            <label for="RefDocNbr">Ref # 1234534567890</label>
+            <label for="RefDocNbr">Ref</label>
             <input
               type="text"
               id="RefDocNbr"
@@ -83,8 +83,8 @@
           <th style="color: grey;font-size: 14px;font-weight: 600;width:50px;">Price(HT)</th>
           <th style="color: grey;font-size: 14px;font-weight: 600;width:50px;"></th>
           <th style="color: grey;font-size: 14px;font-weight: 600;width:50px;">Value</th>
-          <th style="color: grey;font-size: 14px;font-weight: 600;width:170px;">Remarks</th>
-          <th style="color: grey;font-size: 14px;font-weight: 600; width:20px;">Actions</th>
+          <th style="color: grey;font-size: 14px;font-weight: 600;width:150px;">Remarks</th>
+          <th style="color: grey;font-size: 14px;font-weight: 600; width:150px;">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -92,30 +92,18 @@
           <td>{{ i + 1 }}</td>
           <td>
 
-            <div >
-              <ng-container *ngIf="productList && productList.length >0; else showinput " >
-              <select
-                id=""
-                name="WarehouseId"
-                class="form-control"
-                [(ngModel)]="row.ItemId"
-                required
-              >
-                <!-- <option value="" disabled selected>Select Warehouse</option> -->
-                <option *ngFor="let inventory of productList">
-                  {{ inventory.Name }}
-                </option>
-              </select>
-            </ng-container>
-            <ng-template #showinput class="border border-danger">
-            <input
-              [(ngModel)]="row.ItemId"
-              class="form-control"
-              name="Item{{ i }}"
+            <select
+            id="itemId"
+            name="ItemId{{i}}"
+            class="form-control"
+            style="width: 300px;height: 30px;font-size: 14px;"
+            [(ngModel)]="row.ItemId"  >
+              <option value="" disabled selected>Select Item</option>
+              <option *ngFor="let item of InventoryProduct" [value]="item.Id" >
+                {{item.Name}}
+              </option>
               (input)="updatevalue(i)"
-            />
-          </ng-template>
-          </div>
+            </select>
           </td>
           <td class="border border-white border-b-0"></td>
           <td>
@@ -152,44 +140,48 @@
               name="remarks{{ i }}"
             />
           </td>
-          <!-- <td class="justify-content-center" style="width: 5% !important;">
-            <button class="btn btn-danger w-100" (click)="deleteRow(i)">Delete</button>
-          </td> -->
 
 
 
-        <td style="text-align: right;padding-right: 30px;color: grey;">
+          <td style="text-align: right; padding-right: 30px; color: grey;">
 
-          <button
-          *ngIf="row.isHovered"
-          class=" btn-sm rounded-0 tooltip-container"
-          (click) ="addRow()"
-          type="button"
-          style="color: grey;"
-        >
-        <i class="fa-solid fa-check"></i>        </button>
-          <button
-            *ngIf="row.isHovered"
-            class=" btn-sm rounded-0 tooltip-container "
-            (click)="deleteRow(i)"
-            type="button"
-            style="color: grey;"
-          >
-            <i class="fa fa-trash"></i>
+            <!-- Button Group -->
+            <div *ngIf="row.isHovered" style="display: flex; justify-content: flex-start; gap: 5px; align-items: center;">
 
-            <span class="tooltip-text">Delete</span>
-          </button>
+              <!-- Add Button -->
+              <button
+                class="btn-sm rounded-0 tooltip-container"
+                (click)="addRow()"
+                type="button"
+                style="color: grey; display: flex; align-items: center; justify-content: center; border: none; background: none; cursor: pointer;"
+              >
+                <i class="fa-solid fa-check"></i>
+              </button>
+              <button
+                class="btn-sm rounded-0 tooltip-container"
+                (click)="deleteRow(i)"
+                type="button"
+                style="color: grey; display: flex; align-items:last baseline; justify-content:left; border: none; background: none; cursor: pointer; width: 100px;"
+              >
+                <i class="fa fa-trash"></i>
+                <span class="tooltip-text" style="margin-left: 5px;">Delete</span>
+              </button>
 
-        </td>
+            </div>
+
+          </td>
 
         </tr>
       </tbody>
     </table>
-    <td >
-      <button class="btn btn-primary mt-3 btn btn-primary btn-sm" (click)="addRow()">
-        <i class="fa-solid fa-plus"></i>
-        Add Row</button>
-        </td>
+
 
   </form>
+  <table>
+  <td >
+    <button class="btn btn-primary mt-3 btn btn-primary btn-sm" (click)="addRow()">
+      <i class="fa-solid fa-plus"></i>
+      Add Row</button>
+      </td>
+    </table>
 </div>
