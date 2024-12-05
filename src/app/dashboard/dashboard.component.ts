@@ -10,7 +10,10 @@ export class DashboardComponent {
 constructor(private router: Router){
 
 }
+navigateToNewStockOpening() {
+  this.router.navigate(['/stock-opening/new']);
 
+}
   navigateToStockOpeningList() {
     this.router.navigate(['/stock-opening/new']);
 

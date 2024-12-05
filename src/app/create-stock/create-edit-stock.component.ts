@@ -1,5 +1,5 @@
 
-import { Item, Warehouse, Data } from '../shared/models/stock/StockListViewModel';
+
 import { Component } from '@angular/core';
 import { StockOpeningService } from '../shared/services/stockOpening/stock-opening.service';
 import { StockBindingModel } from '../shared/models/stock/StockBindingModel';
@@ -18,7 +18,7 @@ import { InventoryItem } from '../shared/models/stock/InventoryListModel';
 })
 export class CreateEditStockComponent {
   newStock: StockBindingModel = new StockBindingModel();
-  Warehouselist: Warehouselist[] = []; // Updated to be an array
+  Warehouselist: Warehouselist[] = [];
   rows: Row[] = [];
   selectedProduct: any = null;
   isDropdownOpen: boolean = false;
@@ -30,9 +30,6 @@ export class CreateEditStockComponent {
     private stockOpeningService: StockOpeningService,
     private router: Router,
     private route:ActivatedRoute,
-
-
-
   ) {
 
   }
@@ -52,19 +49,18 @@ export class CreateEditStockComponent {
     return `${year}-${month}-${day}`;
   }
   InsertOrUpdateData() {
-    this.newStock.Rows = this.rows; // Set rows with the current data
-    // Call the insertOrUpdate method from the service
+    this.newStock.Rows = this.rows;
+
     this.stockOpeningService.insertOrUpdate(this.newStock).subscribe(response => {
       console.log(response);
       if (response && response.FlgDraft === false) {
-        // Optionally handle success response
-        this.newStock.Rows = response.Rows;  // Update rows if needed
-        this.rows = this.newStock.Rows;      // Update the table rows
-        this.router.navigate(['/stock-opening/list']);  // Navigate after success
+
+        this.newStock.Rows = response.Rows;
+        this.rows = this.newStock.Rows;
+        this.router.navigate(['/stock-opening/list']);
       }
     }, error => {
       console.error('Error:', error);
-      // Optionally handle error (e.g., show error message to the user)
     });
   }
   onHover(item: any) {
@@ -91,7 +87,6 @@ InventoryList(){
     this.InventoryProduct=response;
   })
 }
-   // Add a new row (example functionality)
    addRow() {
     const newRow: Row = {
       Id: null,
@@ -108,25 +103,21 @@ InventoryList(){
       QtyPack: 0,
       isHovered: false
     };
-    //this.rows = [...this.rows, { ...newRow }];
     this.rows.push(newRow);
   }
 
-  // Delete a row
   deleteRow(index: number) {
     this.rows.splice(index, 1);
   }
   updatevalue(index:number){
     const row = this.rows[index];
 
-    // Ensure QtyPack and PricePack are numbers
     const qty = row.NetQty || 0; // Default to 0 if undefined or null
     const price = row.PricePack || 0;
-    console.log('NetQty:', qty, 'PricePack:', price); // Debugging values
+    console.log('NetQty:', qty, 'PricePack:', price);
 
-    // Update ProductValue
     row.ProductValue = qty * price;
-    console.log('Updated ProductValue:', row.ProductValue); // Verify calculation
+    console.log('Updated ProductValue:', row.ProductValue);
    row.QtyPack=row.NetQty;
 
 
@@ -142,14 +133,9 @@ InventoryList(){
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-
-
-
-
-
   selectProduct(product: any): void {
     this.selectedProduct = product;
-    this.isDropdownOpen = false;  // Close the dropdown after selection
+    this.isDropdownOpen = false;
   }
 
 
