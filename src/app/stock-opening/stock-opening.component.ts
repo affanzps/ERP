@@ -15,7 +15,7 @@ export class StockOpeningComponent {
   stocklist:StockListViewModel = new StockListViewModel();
 
   constructor(private stockOpeningService:StockOpeningService,
-    private router: Router // Inject Router for navigation
+    private router: Router
 
   ){}
 
@@ -74,6 +74,6 @@ export class StockOpeningComponent {
 
   editRecord(id: number) {
     debugger
-    this.router.navigate(['/stock-opening/edit', id]); // Navigate to the edit page with the ID as a parameter
+    this.router.navigate(['/stock-opening/edit', id]);
   }
 }

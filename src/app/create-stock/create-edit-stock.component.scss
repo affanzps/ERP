@@ -8,21 +8,20 @@ label {
 .required {
   color: red;
 }
-/* Force last column to remain fixed at 30px */
+
 rtable tbody td:last-child {
   padding: opx !important;
-  width: 10% !important; /* Force width to 30px */
-  text-align: center;      /* Align the button text/icon in the center */
+  width: 10% !important;
+  text-align: center;
 }
 
-/* Style the button inside the last column */
+
 rtable tbody td:last-child button {
   display: flex;
-  width: 100% !important;  /* Make the button take up the full cell width */
-  height: 100% !important; /* Ensure button fills vertically */
-  padding: 0px;          /* Minimal padding to ensure the button looks good */
-  font-size: 12px;         /* Optional: Adjust the font size to fit better */
-  line-height: 1;          /* Ensure the icon is centered */
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0px;
+  line-height: 1;
   justify-content: center;
   align-items: center;
   align-self: center;

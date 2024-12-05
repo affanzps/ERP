@@ -43,7 +43,6 @@ export class EditStockComponent implements OnInit {
     this.getStockListById(this.recordId);
   }
 
-  // Fetch stock data by ID
   getStockListById(id: number): void {
 
     this.stockOpeningService.edit(id).subscribe(
@@ -104,7 +103,6 @@ export class EditStockComponent implements OnInit {
     this.stockOpeningService.insertOrUpdate(this.newStock).subscribe(response => {
       console.log(response);
       if (response && response.FlgDraft === false) {
-        // Optionally handle success response
         this.newStock.Rows = response.Rows;  // Update rows if needed
         this.rows = [...this.newStock.Rows];  // Update the table rows
         this.router.navigate(['/stock-opening/list']);  // Navigate after success
@@ -144,20 +142,16 @@ export class EditStockComponent implements OnInit {
       QtyPack: 0,
       isHovered: false
     };
-    //this.rows = [...this.rows, { ...newRow }];
     this.rows.push(newRow);
   }
 
-  // Delete a row
   deleteRow(index: number) {
     this.rows.splice(index, 1);
   }
 
   updatevalue(index:number){
     const row = this.rows[index];
-
-    // Ensure QtyPack and PricePack are numbers
-    const qty = row.NetQty || 0; // Default to 0 if undefined or null
+    const qty = row.NetQty || 0;
     const price = row.PricePack || 0;
     console.log('NetQty:', qty, 'PricePack:', price); // Debugging values
 
@@ -168,18 +162,18 @@ export class EditStockComponent implements OnInit {
 
 
   }
-  // Navigate to stock opening list
+
   navigateToStockOpeningList() {
     this.router.navigate(['/stock-opening/list']);
   }
 
-  // Navigate to new stock opening page
+
   navigateToStockOpeningListnew() {
     this.router.navigate(['/stock-opening/new']);
   }
 
 
-  // Hover events for row
+
   onHover(item: any) {
     item.isHovered = true;
   }
@@ -188,9 +182,8 @@ export class EditStockComponent implements OnInit {
     item.isHovered = false;
   }
 
-  // Select product from dropdown
   selectProduct(product: any): void {
     this.selectedProduct = product;
-    this.isDropdownOpen = false;  // Close the dropdown after selection
+    this.isDropdownOpen = false;
   }
 }

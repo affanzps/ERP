@@ -7,7 +7,6 @@ import { ReceiptComponent } from './receipt/receipt.component';
 import { StockOpeningComponent } from './stock-opening/stock-opening.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CreateEditStockComponent } from './create-stock/create-edit-stock.component';
-import { ActivitiesIconComponent } from './activities-icon/activities-icon.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { ReactiveFormsModule } from '@angular/forms';
@@ -30,7 +29,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     ReceiptComponent,
     StockOpeningComponent,
     CreateEditStockComponent,
-    ActivitiesIconComponent,
     HeaderComponent,
       EditStockComponent,
       DashboardComponent,
