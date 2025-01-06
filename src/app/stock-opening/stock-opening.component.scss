@@ -55,3 +55,44 @@ font-size: 12px;
   max-width: fit-content;
   max-height: fit-content;
 }
+/* Container for hover actions */
+.hover-container {
+  position: relative;
+}
+
+/* Initially hide the buttons */
+.hover-container button {
+  display: none;
+}
+
+/* Show buttons when the row (td) is hovered */
+.hover-container:hover button {
+  display: inline-block;
+}
+
+/* Hide the log details when the row is hovered */
+.hover-container:hover .log-details {
+  display: none;
+}
+
+/* Styling for the tooltip (optional) */
+.tooltip-container .tooltip-text {
+  visibility: hidden;
+  background-color: black;
+  color: white;
+  text-align: center;
+  border-radius: 3px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}

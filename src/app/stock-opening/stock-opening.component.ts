@@ -1,9 +1,10 @@
-import { StockListViewModel } from './../shared/models/stock/StockListViewModel';
+import { StockListViewModel,Data } from './../shared/models/stock/StockListViewModel';
 import { Component } from '@angular/core';
 import { StockOpeningService } from '../shared/services/stockOpening/stock-opening.service';
 import { Router } from '@angular/router';
 import { response } from 'express';
 import { error } from 'console';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -12,12 +13,17 @@ import { error } from 'console';
   styleUrl: './stock-opening.component.scss'
 })
 export class StockOpeningComponent {
-  stocklist:StockListViewModel = new StockListViewModel();
+  stockForm:FormGroup;
+  stocklist: StockListViewModel = { Data: [], Total: 0 };
 
-  constructor(private stockOpeningService:StockOpeningService,
-    private router: Router
+  constructor(
+    private stockOpeningService:StockOpeningService,
+    private router: Router,
+    private fb:FormBuilder
 
-  ){}
+  ){
+    this.stockForm= this.fb.group({filterKeywords:[''],});
+  }
 
   ngOnInit(): void {
  this.getStockList();
@@ -31,7 +37,6 @@ export class StockOpeningComponent {
 
     this.stockOpeningService.getPagedList(payload).subscribe(
       response => {
-        console.log(response);
         this.stocklist = response;
       },
       error => {
@@ -48,13 +53,6 @@ export class StockOpeningComponent {
   navigateToStockEdit(id:number) {
     this.router.navigate(['/stock-opening/edit',id]);
 
-  }
-
-  onHover(item: any) {
-    item.isHovered = true; // Set isHovered to true when hovering over the row
-  }
-  onLeave(item: any) {
-    item.isHovered = false; // Set isHovered to false when mouse leaves the row
   }
 
   deleteRecord(id: number): void {
@@ -75,5 +73,10 @@ export class StockOpeningComponent {
   editRecord(id: number) {
     debugger
     this.router.navigate(['/stock-opening/edit', id]);
+  }
+
+  onSubmit() {
+    const filterValue = this.stockForm.value.filterKeywords;
+    console.log('Filter applied:', filterValue);
   }
 }

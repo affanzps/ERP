@@ -79,8 +79,9 @@
   <div class="p-datatable-striped p-datatable-sm p-datatable-xs p-datatable p-component p-datatable-hoverable-rows p-datatable-scrollable p-datatable-flex-scrollable">
   <div class="p-datatable-wrapper">
 
-
-
+<!-- stock -->
+  <div>
+    <form [formGroup]="stockForm" >
   <table class="table table-striped table table-hover p-datatable p-datatable-scrollable ng-star-inserted" >
     <thead class="p-datatable-thead">
       <tr>
@@ -96,7 +97,7 @@
     <tbody class="  p-datatable-tbody">
       <tr _ngcontent-ng-c4050952743="" prowgroupheader="" class="p-rowgroup-header p-element ng-star-inserted" style="top: 33px;"><td _ngcontent-ng-c4050952743="" colspan="40" class="bg-light"><span _ngcontent-ng-c4050952743="" class="fw-bold fs-7 ps-2">Recent</span></td></tr>
 
-      <tr class="w-70px h-14px" *ngFor="let item of stocklist.Data" (mouseover)="onHover(item)" (mouseleave)="onLeave(item)">
+      <tr class="w-70px h-14px" *ngFor="let item of stocklist.Data">
         <td >{{item.DocNbr}}</td>
         <td>{{item.DocDate}}</td>
         <td>{{item.RefDocNbr}}</td>
@@ -104,29 +105,36 @@
         <td>{{item.TTLRows}}</td>
         <td>{{item.TTLNetAmount}}</td>
         <td _ngcontent-ng-c4050952743="" class="w-80 ng-star-inserted"><!----></td>
-        <td style="text-align: right;padding-right: 30px;color: grey;">
-          <button
-            *ngIf="item.isHovered"
-            class=" btn-sm rounded-0 tooltip-container "
-            (click)="deleteRecord(item.Id)"
-            type="button"
-            style="color: grey;"
-          >
-            <i class="fa fa-trash"></i>
+        <td
+        class="hover-container"
+        style="text-align: right; padding-right: 30px; color: grey;"
+      >
+        <button
+          class="btn-sm rounded-0 tooltip-container"
+          (click)="deleteRecord(item.Id)"
+          type="button"
+          style="color: grey;"
+        >
+          <i class="fa fa-trash"></i>
+          <span class="tooltip-text">Delete</span>
+        </button>
 
-            <span class="tooltip-text">Delete</span>
-          </button>
-          <button
-          *ngIf="item.isHovered"
-          class=" btn-sm rounded-0 tooltip-container"
-          (click) ="editRecord(item.Id)"
+        <button
+          class="btn-sm rounded-0 tooltip-container"
+          (click)="editRecord(item.Id)"
           type="button"
           style="color: grey;"
         >
           <i class="fa fa-edit"></i>
         </button>
-          <span style="color: grey;font-size: 10px;"  *ngIf="!item.isHovered">{{ item.Log.Creator }} - {{ item.Log.CreatedOn | date: 'dd-MM-yyyy' }}</span>
-        </td>
+
+        <span
+          style="color: grey; font-size: 10px;"
+          class="log-details"
+        >
+          {{ item.Log.Creator }} - {{ item.Log.CreatedOn | date: 'dd-MM-yyyy' }}
+        </span>
+      </td>
 
 
       </tr>
@@ -136,6 +144,8 @@
       <!-- Add rows as needed -->
     </tbody>
   </table>
+</form>
+  </div>
   |</div>
   </div>
 </div>

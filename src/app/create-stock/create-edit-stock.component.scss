@@ -38,3 +38,16 @@ table {
   border-collapse: collapse; /* Removes space between columns */
   border-spacing: 0;
 }
+
+.row-actions .btn  {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
+}
+
+tr:hover .btn
+  {
+  visibility: visible;
+  opacity: 1;
+}
+

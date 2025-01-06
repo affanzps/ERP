@@ -12,8 +12,10 @@ const routes: Routes = [
   { path: 'receipt', component: ReceiptComponent },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'stock-opening/list', component: StockOpeningComponent },
+  { path: 'stock-opening/edit/:id', component: CreateEditStockComponent},
   { path: 'stock-opening/new', component: CreateEditStockComponent},
-  { path: 'stock-opening/edit/:id', component: EditStockComponent},
+
+  //{ path: 'stock-opening/edit/:id', component: EditStockComponent},
   { path: 'dashboard', component: DashboardComponent},
 
 ];

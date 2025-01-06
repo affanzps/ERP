@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StockOpeningService } from '../shared/services/stockOpening/stock-opening.service';
-import { StockBindingModel } from '../shared/models/stock/StockBindingModel';
-import { Warehouselist } from '../shared/models/stock/warehouslist';
+import { StockBindingModel, Warehouse } from '../shared/models/stock/StockBindingModel';
 import { Row, Item } from '../shared/models/stock/StockBindingModel';
 import { InventoryItem } from '../shared/models/stock/InventoryListModel';
 import { Response } from '../shared/models/stock/responseModel';
@@ -16,8 +15,23 @@ import { Response } from '../shared/models/stock/responseModel';
 
 export class EditStockComponent implements OnInit {
   public stockOpeningData: Response | null = null;
-  newStock: StockBindingModel = new StockBindingModel();
-  Warehouselist: Warehouselist[] = [];
+  newStock: StockBindingModel = {
+    Id: null,
+    DocNbr: null,
+    WarehouseId: 0,
+    Warehouse: null,
+    DocDate: '',
+    RefDocNbr: null,
+    BookId: null,
+    BookSeqNbr: null,
+    Rows: [],
+    Remarks: null,
+    Attachments: null,
+    TTLAttachments: null,
+    TTLComments: null,
+    PrintTemplateKey: ''
+  };
+  Warehouselist: Warehouse[]=[];
   rows: Row[] = [];
   items: Item[] = [];
   selectedProduct: any = null;
@@ -103,16 +117,15 @@ export class EditStockComponent implements OnInit {
     this.stockOpeningService.insertOrUpdate(this.newStock).subscribe(response => {
       console.log(response);
       if (response && response.FlgDraft === false) {
-        this.newStock.Rows = response.Rows;  // Update rows if needed
-        this.rows = [...this.newStock.Rows];  // Update the table rows
-        this.router.navigate(['/stock-opening/list']);  // Navigate after success
+        this.newStock.Rows = response.Rows;
+        this.rows = [...this.newStock.Rows];
+        this.router.navigate(['/stock-opening/list']);
       }
     }, error => {
       console.error('Error:', error);
     });
   }
 
-  // Fetch warehouse list
   WarehouseList() {
     const payload = {
       "CacheEntities": []
@@ -125,7 +138,6 @@ export class EditStockComponent implements OnInit {
     });
   }
 
-  // Add a new row
   addRow() {
     const newRow: Row = {
       Id: null,
@@ -153,11 +165,9 @@ export class EditStockComponent implements OnInit {
     const row = this.rows[index];
     const qty = row.NetQty || 0;
     const price = row.PricePack || 0;
-    console.log('NetQty:', qty, 'PricePack:', price); // Debugging values
-
-    // Update ProductValue
-    row.ProductValue = qty * price;
-    console.log('Updated ProductValue:', row.ProductValue); // Verify calculation
+    console.log('NetQty:', qty, 'PricePack:', price);
+       row.ProductValue = qty * price;
+    console.log('Updated ProductValue:', row.ProductValue);
    row.QtyPack=row.NetQty;
 
 
