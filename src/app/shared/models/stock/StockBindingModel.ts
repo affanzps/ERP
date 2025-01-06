@@ -1,72 +1,82 @@
-export class StockBindingModel {
-  Id!: number | null;
-  DocNbr!: string | null;
-  WarehouseId!: number;
-  Warehouse!: Warehouse | null;
-  DocDate!: string;
-  RefDocNbr!: string | null;
-  BookId!: number | null;
-  BookSeqNbr!: number | null;
-  Rows!: Row[];
-  Remarks!: string | null;
-  Attachments!: any[] | null;
-  TTLAttachments!: number | null;
-  TTLComments!: string | null;
-  PrintTemplateKey!: string;
+export interface StockBindingModel {
+  Id: number | null;
+  DocNbr: string | null;
+  WarehouseId: number;
+  Warehouse: Warehouse | null;
+  DocDate: string;
+  RefDocNbr: string | null;
+  BookId: number | null;
+  BookSeqNbr: number | null;
+  Rows: Row[];
+  Remarks: string | null;
+  Attachments: any[] | null;
+  TTLAttachments: number | null;
+  TTLComments: string | null;
+  PrintTemplateKey: string;
 }
 
-export class Warehouse {
-  Name!: string | null;
-  Id!: number;
+export interface Warehouse {
+  Name: string | null;
+  Id: number;
+  EntityStatusId: number;
+  ShortName: string;
+  FlgHasChildren: boolean;
+  DisplayOrder: number;
+  FlgContainStock: boolean;
+  Level: number;
+  Archived: boolean;
+  Log: Log;
 }
 
-export class Row {
-  Id!: number | null;
-  ItemId!: number |null ;
-
-  PricePack!: number;
-  NetQty!: number;
-  ProductValue!: number;
-  ItemLot!: string | null;
-  Remarks!: string;
-  Log!: Log | null;
-  Archived!: boolean;
-  Editing!: boolean;
-  Errors!: any[] | null;
-  QtyPack!: number;
-  isHovered!:false;
+export interface Row {
+  Id: number | null;
+  ItemId: number | null;
+  PricePack: number;
+  NetQty: number;
+  ProductValue: number;
+  ItemLot: string | null;
+  Remarks: string;
+  Log: Log | null;
+  Archived: boolean;
+  Editing: boolean;
+  Errors: any[] | null;
+  QtyPack: number;
+  isHovered: boolean;
 }
 
-export class Log {
-  CreatedOn!: string | null;
-  Creator!: string | null;
-}
-export class Item {
-  Name!: string [];
-  StockUnitId!: number;
-  StockUnit!: StockUnit;
-  CostingMethod!: string;
-  InvAmountBasedOn!: string;
-  GroupId!: number;
-  Group!: Group;
-  Archived!: boolean;
-  Id!: number;
-}
-export class StockUnit {
-  Name!: string;
-  Multiplier!: number;
-  Decimals!: number;
-  Id!: number;
+export interface Log {
+  CreatedOn: string | null;
+  Creator: string | null;
 }
 
-export class Group {
-  Name!: string;
-  TypeId!: number;
-  Type!: Type;
-  Id!: number;
+export interface Item {
+  Name: string[];
+  StockUnitId: number;
+  StockUnit: StockUnit;
+  CostingMethod: string;
+  InvAmountBasedOn: string;
+  GroupId: number;
+  Group: Group;
+  Archived: boolean;
+  Id: number;
 }
-export class Type {
-  Name!: string;
-  SysKey!: string;
-  Id!: number;
+
+export interface StockUnit {
+  Name: string;
+  Multiplier: number;
+  Decimals: number;
+  Id: number;
+}
+
+export interface Group {
+  Name: string;
+  TypeId: number;
+  Type: Type;
+  Id: number;
+}
+
+export interface Type {
+  Name: string;
+  SysKey: string;
+  Id: number;
 }
